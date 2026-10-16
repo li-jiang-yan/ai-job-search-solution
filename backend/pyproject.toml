@@ -65,3 +65,11 @@ ignore = [
 indent-style = "space"
 
 quote-style = "single"
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["app"]

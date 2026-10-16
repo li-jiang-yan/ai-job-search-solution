@@ -8,3 +8,4 @@ fi
 
 ruff check backend
 ruff format --check backend
+pytest
