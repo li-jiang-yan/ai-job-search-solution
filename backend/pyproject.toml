@@ -1,0 +1,11 @@
+[project]
+name = "app"
+version = "1.0.0"
+description = "A React + Flask app that helps you land your next job"
+dependencies = [
+  "flask",
+]
+
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
