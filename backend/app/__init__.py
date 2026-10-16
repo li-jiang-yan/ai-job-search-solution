@@ -23,4 +23,9 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
+    # apply the blueprints to the app
+    from . import routes
+
+    app.register_blueprint(routes.bp)
+
     return app
