@@ -18,7 +18,6 @@ def extract_job(card: Tag) -> dict[str, Any]:
     title_link = card.select_one('a.base-card__full-link')
     company_link = card.select_one('h4.base-search-card__subtitle a')
     listed_date = card.select_one('time.job-search-card__listdate')
-    logo = card.select_one('img')
 
     job_url = title_link.get('href') if title_link else None
     job_id = None
@@ -47,17 +46,6 @@ def extract_job(card: Tag) -> dict[str, Any]:
         'job_url': job_url,
         'company_url': company_link.get('href') if company_link else None,
         'search_result_position': position,
-        'company_logo': dict(logo.attrs) if logo else None,
-        # Keep the original card metadata and links for any additional values.
-        'card_attributes': dict(card.attrs),
-        'links': [
-            {
-                'text': link.get_text(' ', strip=True),
-                'url': link.get('href'),
-                'attributes': dict(link.attrs),
-            }
-            for link in card.select('a[href]')
-        ],
     }
 
 

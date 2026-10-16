@@ -44,28 +44,6 @@ def test_extract_job_reads_all_available_fields():
         'job_url': 'https://www.linkedin.com/jobs/view/software-engineer-12345?position=2',
         'company_url': 'https://example.com',
         'search_result_position': '2',
-        'company_logo': {'src': 'logo.png', 'alt': 'Example Co'},
-        'card_attributes': {'class': ['job-search-card'], 'data-id': 'card-1'},
-        'links': [
-            {
-                'text': '',
-                'url': 'https://www.linkedin.com/jobs/view/software-engineer-12345?position=2',
-                'attributes': {
-                    'class': ['base-card__full-link'],
-                    'href': 'https://www.linkedin.com/jobs/view/software-engineer-12345?position=2',
-                },
-            },
-            {
-                'text': 'Example Co',
-                'url': 'https://example.com',
-                'attributes': {'href': 'https://example.com'},
-            },
-            {
-                'text': 'Visit',
-                'url': 'https://example.com',
-                'attributes': {'href': 'https://example.com'},
-            },
-        ],
     }
 
 
@@ -82,9 +60,6 @@ def test_extract_job_handles_missing_optional_fields():
         'job_url': None,
         'company_url': None,
         'search_result_position': None,
-        'company_logo': None,
-        'card_attributes': {'class': ['job-search-card']},
-        'links': [],
     }
 
 
