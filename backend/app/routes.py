@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from app.extract_jobs import search_jobs
+from app.search_jobs import search_jobs
 
 bp = Blueprint('blog', __name__)
 

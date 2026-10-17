@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from app.extract_jobs import extract_job, extract_jobs, text_inside
+from app.search_jobs import extract_job, extract_jobs, text_inside
 
 
 def test_text_inside_returns_cleaned_text_or_none():
