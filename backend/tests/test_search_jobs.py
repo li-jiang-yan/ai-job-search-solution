@@ -1,6 +1,9 @@
+from unittest.mock import Mock
+
+import pytest
 from bs4 import BeautifulSoup
 
-from app.search_jobs import extract_job, extract_jobs, text_inside
+from app.search_jobs import extract_job, extract_jobs, search_jobs, text_inside
 
 
 def test_text_inside_returns_cleaned_text_or_none():
@@ -83,3 +86,34 @@ def test_extract_jobs_returns_each_card_and_empty_for_no_results():
 
     assert [job['title'] for job in extract_jobs(html)] == ['First', 'Second']
     assert extract_jobs('<main>No job cards</main>') == []
+
+
+def test_search_jobs_fetches_results_and_extracts_cards(monkeypatch):
+    response = BeautifulSoup(
+        '<div class="job-search-card"><h3 class="base-search-card__title">Engineer</h3></div>',
+        'html.parser',
+    )
+    fake_response = type(
+        'Response', (), {'text': str(response), 'raise_for_status': lambda self: None}
+    )()
+    request = Mock(return_value=fake_response)
+    monkeypatch.setattr('app.search_jobs.requests.get', request)
+
+    result = search_jobs({'keywords': 'engineer'})
+
+    assert len(result) == 1
+    assert result[0]['title'] == 'Engineer'
+    request.assert_called_once_with(
+        'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search',
+        params={'keywords': 'engineer'},
+    )
+
+
+def test_search_jobs_propagates_http_errors(monkeypatch):
+    error = RuntimeError('request failed')
+    fake_response = Mock()
+    fake_response.raise_for_status.side_effect = error
+    monkeypatch.setattr('app.search_jobs.requests.get', Mock(return_value=fake_response))
+
+    with pytest.raises(RuntimeError, match='request failed'):
+        search_jobs({})
