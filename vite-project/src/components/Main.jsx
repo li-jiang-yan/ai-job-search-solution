@@ -1,16 +1,21 @@
 import { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import BasicSearch from './BasicSearch';
-import SearchResults from './SearchResults';
+import Home from './Home';
 
 const Main = () => {
   const [results, setResults] = useState([]);
 
   return (
     <main>
-      <BasicSearch setResults={setResults} />
-      <hr className='my-4' />
-      <SearchResults results={results} />
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path='/'
+            element={<Home results={results} setResults={setResults} />}
+          />
+        </Routes>
+      </BrowserRouter>
     </main>
   );
 };
