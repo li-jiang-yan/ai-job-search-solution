@@ -5,22 +5,18 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 function BasicSearch({ setResults }) {
-  const [formData, setFormData] = useState(
-    {
-      keywords: '',
-      location: ''
-    }
-  );
+  const [formData, setFormData] = useState({
+    keywords: '',
+    location: '',
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData(
-      {
-        ...formData,
-        [name]: value
-      }
-    );
-  }
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();

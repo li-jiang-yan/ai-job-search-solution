@@ -10,13 +10,14 @@ const Header = () => {
           width='40'
           height='32'
           role='img'
-          aria-label='Bootstrap'>
+          aria-label='Bootstrap'
+        >
           <use xlinkHref='#bootstrap'></use>
         </svg>
         <span className='fs-4'>Starter template</span>
       </a>
     </header>
   );
-}
+};
 
 export default Header;

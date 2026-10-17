@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import BasicSearch from "./BasicSearch";
-import SearchResults from "./SearchResults";
+import BasicSearch from './BasicSearch';
+import SearchResults from './SearchResults';
 
 const Main = () => {
   const [results, setResults] = useState([]);
@@ -13,6 +13,6 @@ const Main = () => {
       <SearchResults results={results} />
     </main>
   );
-}
+};
 
 export default Main;

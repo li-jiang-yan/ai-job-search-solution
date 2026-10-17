@@ -1,11 +1,10 @@
-import ColorModeDropdown from './components/ColorModeDropdown'
 import Col from 'react-bootstrap/Col';
+import ColorModeDropdown from './components/ColorModeDropdown';
+import Footer from './components/Footer';
 import Header from './components/Header';
 import Main from './components/Main';
-import Footer from './components/Footer';
 
 function App() {
-
   return (
     <>
       <ColorModeDropdown />
@@ -15,7 +14,7 @@ function App() {
         <Footer />
       </Col>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
