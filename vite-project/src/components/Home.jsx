@@ -1,12 +1,12 @@
 import BasicSearch from './BasicSearch';
 import SearchResults from './SearchResults';
 
-const Home = ({ results, setResults }) => {
+const Home = ({ setQueue, output }) => {
   return (
     <>
-      <BasicSearch setResults={setResults} />
+      <BasicSearch setQueue={setQueue} />
       <hr className='my-4' />
-      <SearchResults results={results} />
+      <SearchResults results={output} />
     </>
   );
 };

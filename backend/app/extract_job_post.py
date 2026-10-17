@@ -5,6 +5,7 @@ import html
 import json
 from typing import Any
 
+import requests
 from bs4 import BeautifulSoup, Tag
 
 
@@ -118,3 +119,11 @@ def extract_job_post(html_source: str) -> dict[str, Any]:
         )
 
     return result
+
+
+def extract_job_url(url: str) -> dict[str, Any]:
+    """Return one dictionary with the information found in a job-post HTML page given the page's
+    URL."""
+    response = requests.get(url)
+    response.raise_for_status()
+    return extract_job_post(response.text)

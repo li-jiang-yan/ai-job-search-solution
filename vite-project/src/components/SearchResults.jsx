@@ -1,8 +1,14 @@
 import Table from 'react-bootstrap/Table';
+import { useNavigate } from 'react-router-dom';
 
 function SearchResult({ result }) {
+  const navigate = useNavigate();
+
   return (
-    <tr>
+    <tr
+      onClick={() => navigate(`/view/${result.job_id}`)}
+      style={{ cursor: 'pointer' }}
+    >
       <td>
         <input type='checkbox' />
       </td>
@@ -17,8 +23,8 @@ function SearchResults({ results }) {
   return (
     <Table hover>
       <tbody>
-        {results.map((result) => (
-          <SearchResult key={result.job_id} result={result} />
+        {Object.entries(results).map(([key, value]) => (
+          <SearchResult key={key} result={value} />
         ))}
       </tbody>
     </Table>

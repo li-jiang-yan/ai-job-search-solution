@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function BasicSearch({ setResults }) {
+function BasicSearch({ setQueue }) {
   const [formData, setFormData] = useState({
     keywords: '',
     location: '',
@@ -30,7 +30,7 @@ function BasicSearch({ setResults }) {
       }
 
       const data = await response.json();
-      setResults((results) => results.concat(data));
+      setQueue((queue) => queue.concat(data));
     } catch (error) {
       console.error('Fetch operation failed:', error);
     }
