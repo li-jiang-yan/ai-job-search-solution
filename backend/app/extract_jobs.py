@@ -4,6 +4,7 @@
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
+import requests
 from bs4 import BeautifulSoup, Tag
 
 
@@ -53,3 +54,13 @@ def extract_jobs(html: str) -> list[dict[str, Any]]:
     """Extract all job result cards from an HTML document or fragment."""
     soup = BeautifulSoup(html, 'html.parser')
     return [extract_job(card) for card in soup.select('div.job-search-card')]
+
+
+def search_jobs(query_params: dict) -> list[dict[str, Any]]:
+    """Fetch and extract job result cards for the supplied search parameters."""
+    response = requests.get(
+        'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search',
+        params=query_params,
+    )
+    response.raise_for_status()
+    return extract_jobs(response.text)

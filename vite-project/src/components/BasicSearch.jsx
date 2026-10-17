@@ -4,11 +4,11 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function BasicSearch() {
+function BasicSearch({ setResults }) {
   const [formData, setFormData] = useState(
     {
-      title: '',
-      city: ''
+      keywords: '',
+      location: ''
     }
   );
 
@@ -22,28 +22,41 @@ function BasicSearch() {
     );
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    alert(`title: ${formData.title}, city: ${formData.city}`);
+
+    try {
+      const queryParams = new URLSearchParams(formData).toString();
+      const response = await fetch(`/api/search?${queryParams}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setResults((results) => results.concat(data));
+    } catch (error) {
+      console.error('Fetch operation failed:', error);
+    }
   };
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <h4 className='mb-3'>Basic Search</h4>
       <Row>
         <Form.Group as={Col}>
           <Form.Control
             placeholder='Title, skill, or company'
-            name='title'
-            value={formData.title}
+            name='keywords'
+            value={formData.keywords}
             onChange={handleChange}
           />
         </Form.Group>
         <Form.Group as={Col}>
           <Form.Control
             placeholder='City, state, or zip code'
-            name='city'
-            value={formData.city}
+            name='location'
+            value={formData.location}
             onChange={handleChange}
           />
         </Form.Group>
