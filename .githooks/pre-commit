@@ -9,3 +9,7 @@ fi
 ruff check backend
 ruff format --check backend
 pytest
+{
+    cd vite-project
+    npx --no-install biome check
+}
