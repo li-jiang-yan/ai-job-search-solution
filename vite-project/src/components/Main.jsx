@@ -45,6 +45,10 @@ const Main = () => {
     extractPost();
   }, [queue]);
 
+  window.addEventListener('beforeunload', (event) => {
+    event.preventDefault();
+  });
+
   return (
     <main>
       <BrowserRouter>
