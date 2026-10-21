@@ -2,6 +2,26 @@ import { useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 
+const summarizeHtml = async (htmlDescription) => {
+  const response = await fetch('/api/summarize', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      html: htmlDescription,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
 const AiSummary = ({ output, setOutput, jobId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -9,46 +29,30 @@ const AiSummary = ({ output, setOutput, jobId }) => {
   const htmlDescription = object.main_job_page.description_html;
   const summary = object?.summary;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Run only on mount
   useEffect(() => {
-    const summarizePost = async () => {
+    const loadSummary = async () => {
       if (summary === undefined) {
         try {
-          const response = await fetch('/api/summarize', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              html: htmlDescription,
-            }),
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const data = await response.json();
-
+          const result = await summarizeHtml(htmlDescription);
           setOutput((previousOutput) => ({
             ...previousOutput,
-            [jobId]: { ...previousOutput[jobId], summary: data },
+            [jobId]: {
+              ...previousOutput[jobId],
+              summary: result,
+            },
           }));
-        } catch (error) {
-          console.error('Fetch operation failed:', error);
-          setError(error.message);
-        } finally {
-          setIsLoading(false);
+        } catch (e) {
+          console.error('Fetch operation failed:', e);
+          setError(e.message);
         }
       }
+
+      setIsLoading(false);
     };
 
-    summarizePost();
-  }, [
-    summary,
-    htmlDescription,
-    jobId, // constant (needed by Biome)
-    setOutput, // setter, does no harm (needed by Biome linter)
-  ]);
+    loadSummary();
+  }, []);
 
   if (isLoading) {
     return <Spinner animation='border' role='status' />;
