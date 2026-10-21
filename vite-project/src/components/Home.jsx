@@ -1,13 +1,13 @@
 import BasicSearch from './BasicSearch';
 import SearchResults from './SearchResults';
 
-const Home = ({ formData, setFormData, setQueue, output }) => {
+const Home = ({ formData, setFormData, output, setIsSearching }) => {
   return (
     <>
       <BasicSearch
         formData={formData}
         setFormData={setFormData}
-        setQueue={setQueue}
+        setIsSearching={setIsSearching}
       />
       <hr className='my-4' />
       <SearchResults results={output} />

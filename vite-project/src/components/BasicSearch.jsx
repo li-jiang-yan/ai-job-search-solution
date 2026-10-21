@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function BasicSearch({ formData, setFormData, setQueue }) {
+function BasicSearch({ formData, setFormData, setIsSearching }) {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -14,28 +14,7 @@ function BasicSearch({ formData, setFormData, setQueue }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    let start = 0;
-
-    while (true) {
-      try {
-        const queryParams = new URLSearchParams({
-          ...formData,
-          start: start,
-        }).toString();
-        const response = await fetch(`/api/search?${queryParams}`);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setQueue((queue) => queue.concat(data));
-        start += data.length;
-      } catch (error) {
-        console.error('Fetch operation failed:', error);
-      }
-    }
+    setIsSearching(true);
   };
 
   return (
@@ -59,9 +38,7 @@ function BasicSearch({ formData, setFormData, setQueue }) {
           />
         </Form.Group>
         <Col xs='auto'>
-          <Button type='submit' onClick={handleSubmit}>
-            Search
-          </Button>
+          <Button type='submit'>Search</Button>
         </Col>
       </Row>
     </Form>
