@@ -21,18 +21,26 @@ function BasicSearch({ setQueue }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const queryParams = new URLSearchParams(formData).toString();
-      const response = await fetch(`/api/search?${queryParams}`);
+    let start = 0;
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+    while (true) {
+      try {
+        const queryParams = new URLSearchParams({
+          ...formData,
+          start: start,
+        }).toString();
+        const response = await fetch(`/api/search?${queryParams}`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setQueue((queue) => queue.concat(data));
+        start += data.length;
+      } catch (error) {
+        console.error('Fetch operation failed:', error);
       }
-
-      const data = await response.json();
-      setQueue((queue) => queue.concat(data));
-    } catch (error) {
-      console.error('Fetch operation failed:', error);
     }
   };
 
