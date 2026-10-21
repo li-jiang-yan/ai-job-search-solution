@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 
 from app.extract_job_post import extract_job_url
 from app.search_jobs import search_jobs
+from app.summarize_job_post import summarize_job_post
 
 bp = Blueprint('blog', __name__)
 
@@ -20,4 +21,13 @@ def extract():
     payload = request.get_json()
     url = payload['url']
     result = extract_job_url(url)
+    return jsonify(result)
+
+
+@bp.route('/summarize', methods=['POST'])
+def summarize():
+    """Extract job post from webpage link"""
+    payload = request.get_json()
+    html = payload['html']
+    result = summarize_job_post(html)
     return jsonify(result)

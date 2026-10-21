@@ -57,7 +57,10 @@ const Main = () => {
             path='/'
             element={<Home setQueue={setQueue} output={output} />}
           />
-          <Route path='/view/:jobId' element={<View output={output} />} />
+          <Route
+            path='/view/:jobId'
+            element={<View output={output} setOutput={setOutput} />}
+          />
         </Routes>
       </BrowserRouter>
     </main>
