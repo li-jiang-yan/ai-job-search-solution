@@ -8,6 +8,12 @@ const Main = () => {
   const [queue, setQueue] = useState([]);
   const [output, setOutput] = useState({});
 
+  // BasicSearch
+  const [formData, setFormData] = useState({
+    keywords: '',
+    location: '',
+  });
+
   useEffect(() => {
     if (queue.length === 0) return;
 
@@ -55,7 +61,14 @@ const Main = () => {
         <Routes>
           <Route
             path='/'
-            element={<Home setQueue={setQueue} output={output} />}
+            element={
+              <Home
+                formData={formData}
+                setFormData={setFormData}
+                setQueue={setQueue}
+                output={output}
+              />
+            }
           />
           <Route
             path='/view/:jobId'

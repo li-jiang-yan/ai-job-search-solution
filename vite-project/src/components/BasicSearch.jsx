@@ -1,15 +1,9 @@
-import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function BasicSearch({ setQueue }) {
-  const [formData, setFormData] = useState({
-    keywords: '',
-    location: '',
-  });
-
+function BasicSearch({ formData, setFormData, setQueue }) {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
