@@ -99,6 +99,7 @@ const Main = () => {
                 formData={formData}
                 setFormData={setFormData}
                 output={output}
+                isSearching={isSearching}
                 setIsSearching={setIsSearching}
               />
             }

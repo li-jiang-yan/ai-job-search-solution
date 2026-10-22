@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function BasicSearch({ formData, setFormData, setIsSearching }) {
+function BasicSearch({ formData, setFormData, isSearching, setIsSearching }) {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -27,6 +27,7 @@ function BasicSearch({ formData, setFormData, setIsSearching }) {
             name='keywords'
             value={formData.keywords}
             onChange={handleChange}
+            disabled={isSearching}
           />
         </Form.Group>
         <Form.Group as={Col}>
@@ -35,10 +36,13 @@ function BasicSearch({ formData, setFormData, setIsSearching }) {
             name='location'
             value={formData.location}
             onChange={handleChange}
+            disabled={isSearching}
           />
         </Form.Group>
         <Col xs='auto'>
-          <Button type='submit'>Search</Button>
+          <Button type='submit' disabled={isSearching}>
+            Search
+          </Button>
         </Col>
       </Row>
     </Form>
