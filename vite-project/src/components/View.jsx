@@ -22,6 +22,7 @@ const View = ({ output, setOutput }) => {
         target='_blank'
         rel='noopener noreferrer'
       >
+        View on&ensp;
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='16'
