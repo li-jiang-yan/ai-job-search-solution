@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
     <footer className='pt-5 my-5 text-body-secondary border-top'>
-      Created by JY (based on the Starter Template created by the Bootstrap
-      team)
+      <p class='mb-1'>Made with &#10084; by JY</p>
+      <p class='mb-0'>Most importantly, keep learning =)</p>
     </footer>
   );
 };
