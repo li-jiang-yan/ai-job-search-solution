@@ -5,8 +5,9 @@ import Row from 'react-bootstrap/Row';
 import { useNavigate, useParams } from 'react-router-dom';
 import AiSummary from './AiSummary';
 import ErrorBoundary from './ErrorBoundary';
+import ResumeSummary from './ResumeSummary';
 
-const View = ({ output, setOutput }) => {
+const View = ({ output, setOutput, flatResume }) => {
   const { jobId } = useParams();
   const navigate = useNavigate();
   const object = output[jobId];
@@ -52,6 +53,14 @@ const View = ({ output, setOutput }) => {
           <h6>AI Summary</h6>
           <ErrorBoundary>
             <AiSummary output={output} setOutput={setOutput} jobId={jobId} />
+          </ErrorBoundary>
+          <h6>Proposed Resume Summary</h6>
+          <ErrorBoundary>
+            <ResumeSummary
+              output={output}
+              flatResume={flatResume}
+              jobId={jobId}
+            />
           </ErrorBoundary>
         </Col>
       </Row>
