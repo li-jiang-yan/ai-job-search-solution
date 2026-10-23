@@ -1,15 +1,18 @@
 import BasicSearch from './BasicSearch';
+import ResumeUpload from './ResumeUpload';
 import SearchResults from './SearchResults';
 
 const Home = ({
+  setResume,
   formData,
   setFormData,
-  output,
   isSearching,
   setIsSearching,
+  output,
 }) => {
   return (
     <>
+      <ResumeUpload setResume={setResume} />
       <BasicSearch
         formData={formData}
         setFormData={setFormData}

@@ -8,6 +8,9 @@ const Main = () => {
   const [queue, setQueue] = useState([]);
   const [output, setOutput] = useState({});
 
+  // ResumeUpload
+  const [resume, setResume] = useState({});
+
   // BasicSearch
   const [formData, setFormData] = useState({
     keywords: '',
@@ -96,11 +99,12 @@ const Main = () => {
             path='/'
             element={
               <Home
+                setResume={setResume}
                 formData={formData}
                 setFormData={setFormData}
-                output={output}
                 isSearching={isSearching}
                 setIsSearching={setIsSearching}
+                output={output}
               />
             }
           />

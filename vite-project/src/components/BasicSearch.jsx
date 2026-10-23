@@ -18,8 +18,8 @@ function BasicSearch({ formData, setFormData, isSearching, setIsSearching }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <h4 className='mb-3'>Basic Search</h4>
+    <Form className='mb-3' onSubmit={handleSubmit}>
+      <p>Basic Search</p>
       <Row>
         <Form.Group as={Col}>
           <Form.Control
