@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
     <footer className='pt-5 my-5 text-body-secondary border-top'>
-      <p class='mb-1'>Made with &#10084; by JY</p>
-      <p class='mb-0'>Most importantly, keep learning =)</p>
+      <p className='mb-1'>Made with &#10084; by JY</p>
+      <p className='mb-0'>Most importantly, keep learning =)</p>
     </footer>
   );
 };
