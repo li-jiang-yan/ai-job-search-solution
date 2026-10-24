@@ -103,7 +103,13 @@ function MultiSelectCheckbox({
   );
 }
 
-const FilterSort = ({ results, filterItems, setFilterItems }) => {
+const FilterSort = ({
+  results,
+  filterItems,
+  setFilterItems,
+  sortTerm,
+  setSortTerm,
+}) => {
   const handleDateChange = (event) => {
     setFilterItems({
       ...filterItems,
@@ -140,9 +146,14 @@ const FilterSort = ({ results, filterItems, setFilterItems }) => {
       </Row>
       <Row>
         <Form.Group as={Col}>
-          <Form.Label>Search</Form.Label>
-          <Form.Control />
-          <Form.Text></Form.Text>
+          <Form.Label>Description Based Sort Terms</Form.Label>
+          <Form.Control
+            type='search'
+            value={sortTerm}
+            onChange={(event) => setSortTerm(event.target.value)}
+            onClick={(event) => event.stopPropagation()}
+            className='mb-1'
+          />
         </Form.Group>
       </Row>
     </Form>

@@ -11,6 +11,8 @@ const Home = ({
   setIsSearching,
   filterItems,
   setFilterItems,
+  sortTerm,
+  setSortTerm,
   output,
 }) => {
   return (
@@ -27,6 +29,8 @@ const Home = ({
         results={output}
         filterItems={filterItems}
         setFilterItems={setFilterItems}
+        sortTerm={sortTerm}
+        setSortTerm={setSortTerm}
       />
       <hr className='my-4' />
       <SearchResults results={output} filterItems={filterItems} />

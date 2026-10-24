@@ -25,6 +25,9 @@ const Main = () => {
     title: new Set(),
     date: '',
   });
+  const [sortTerm, setSortTerm] = useState('');
+  const sortTermArray =
+    sortTerm.trim() === '' ? [] : sortTerm.trim().toLowerCase().split(' ');
 
   useEffect(() => {
     if (Object.keys(resume).length > 0) {
@@ -87,6 +90,7 @@ const Main = () => {
     searchJobs();
   }, [isSearching]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Run only on queue
   useEffect(() => {
     if (queue.length === 0) return;
 
@@ -113,7 +117,15 @@ const Main = () => {
 
         setOutput((previousOutput) => ({
           ...previousOutput,
-          [firstJob.job_id]: { ...firstJob, ...data },
+          [firstJob.job_id]: {
+            ...firstJob,
+            ...data,
+            matches: sortTermArray.filter((element) =>
+              data.main_job_page.description_html
+                .toLowerCase()
+                .includes(element),
+            ),
+          },
         }));
       } catch (error) {
         console.error('Fetch operation failed:', error);
@@ -123,6 +135,23 @@ const Main = () => {
 
     extractPost();
   }, [queue]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Run only on sortTermArray
+  useEffect(() => {
+    for (const [key, _] of Object.entries(output)) {
+      setOutput((previousOutput) => ({
+        ...previousOutput,
+        [key]: {
+          ...previousOutput[key],
+          matches: sortTermArray.filter((element) =>
+            previousOutput[key].main_job_page.description_html
+              .toLowerCase()
+              .includes(element),
+          ),
+        },
+      }));
+    }
+  }, [sortTerm]);
 
   window.addEventListener('beforeunload', (event) => {
     event.preventDefault();
@@ -143,6 +172,8 @@ const Main = () => {
                 setIsSearching={setIsSearching}
                 filterItems={filterItems}
                 setFilterItems={setFilterItems}
+                sortTerm={sortTerm}
+                setSortTerm={setSortTerm}
                 output={output}
               />
             }

@@ -13,7 +13,17 @@ function SearchResult({ result }) {
         <input type='checkbox' />
       </td>
       <td>{result.company}</td>
-      <td>{result.title}</td>
+      <td>
+        {result.title}&nbsp;
+        {result.matches.length > 0 ? (
+          <>
+            <br />
+            <span className='text-muted'>{result.matches.join(', ')}</span>
+          </>
+        ) : (
+          ''
+        )}
+      </td>
       <td>{result.listed_date.date}</td>
     </tr>
   );
@@ -31,7 +41,8 @@ function SearchResults({ results, filterItems }) {
     .filter(([_, value]) => {
       if (earliestDate === '' || value.listed_date.date === null) return true;
       return new Date(earliestDate) <= new Date(value.listed_date.date);
-    });
+    })
+    .sort((a, b) => b[1].matches.length - a[1].matches.length);
 
   return (
     <Table hover>
