@@ -9,6 +9,8 @@ const Home = ({
   setFormData,
   isSearching,
   setIsSearching,
+  filterItems,
+  setFilterItems,
   output,
 }) => {
   return (
@@ -21,9 +23,13 @@ const Home = ({
         setIsSearching={setIsSearching}
       />
       <hr className='my-4' />
-      <FilterSort />
+      <FilterSort
+        results={output}
+        filterItems={filterItems}
+        setFilterItems={setFilterItems}
+      />
       <hr className='my-4' />
-      <SearchResults results={output} />
+      <SearchResults results={output} filterItems={filterItems} />
     </>
   );
 };

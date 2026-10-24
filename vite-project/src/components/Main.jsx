@@ -19,6 +19,12 @@ const Main = () => {
   });
   const [isSearching, setIsSearching] = useState(false);
 
+  // FilterSort
+  const [filterItems, setFilterItems] = useState({
+    company: new Set(),
+    title: new Set(),
+  });
+
   useEffect(() => {
     if (Object.keys(resume).length > 0) {
       const flattenResume = async () => {
@@ -134,6 +140,8 @@ const Main = () => {
                 setFormData={setFormData}
                 isSearching={isSearching}
                 setIsSearching={setIsSearching}
+                filterItems={filterItems}
+                setFilterItems={setFilterItems}
                 output={output}
               />
             }

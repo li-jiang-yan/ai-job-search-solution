@@ -19,11 +19,19 @@ function SearchResult({ result }) {
   );
 }
 
-function SearchResults({ results }) {
+function SearchResults({ results, filterItems }) {
+  const companies = filterItems.company;
+  const titles = filterItems.title;
+  const resultEntries = Object.entries(results)
+    .filter(
+      ([_, value]) => companies.size === 0 || companies.has(value.company),
+    )
+    .filter(([_, value]) => titles.size === 0 || titles.has(value.title));
+
   return (
     <Table hover>
       <tbody>
-        {Object.entries(results).map(([key, value]) => (
+        {resultEntries.map(([key, value]) => (
           <SearchResult key={key} result={value} />
         ))}
       </tbody>

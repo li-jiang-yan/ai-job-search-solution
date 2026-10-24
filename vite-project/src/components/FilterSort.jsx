@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
@@ -11,25 +10,36 @@ function getUniqueArrayOf(objectArray, key) {
   return Array.from(set).sort();
 }
 
-function MultiSelectCheckbox({ objectArray, objectKey }) {
+function MultiSelectCheckbox({
+  objectArray,
+  objectKey,
+  filterItems,
+  setFilterItems,
+}) {
   const optionsList = getUniqueArrayOf(objectArray, objectKey);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const selectedItems = filterItems[objectKey];
 
   // Toggle selection
-  const handleCheckboxChange = (id) => {
-    setSelectedItems(
-      (prevSelected) =>
-        prevSelected.includes(id)
-          ? prevSelected.filter((item) => item !== id) // Remove item
-          : [...prevSelected, id], // Add item
-    );
+  const handleCheckboxChange = (event, option) => {
+    const newSelectedItems = new Set(selectedItems);
+
+    if (event.target.checked) {
+      newSelectedItems.add(option);
+    } else {
+      newSelectedItems.delete(option);
+    }
+
+    setFilterItems({
+      ...filterItems,
+      [objectKey]: newSelectedItems,
+    });
   };
 
   // Format button text dynamically
   const getDropdownLabel = () => {
-    if (selectedItems.length === 0) return 'Select Options';
-    if (selectedItems.length === optionsList.length) return 'All Selected';
-    return `${selectedItems.length} Selected`;
+    if (selectedItems.size === 0) return 'Select Options';
+    if (selectedItems.size === optionsList.length) return 'All Selected';
+    return `${selectedItems.size} Selected`;
   };
 
   return (
@@ -50,8 +60,8 @@ function MultiSelectCheckbox({ objectArray, objectKey }) {
             key={crypto.randomUUID()}
             type='checkbox'
             label={option}
-            checked={selectedItems.includes(option.id)}
-            onChange={() => handleCheckboxChange(option.id)}
+            checked={selectedItems.has(option)}
+            onChange={(e) => handleCheckboxChange(e, option)}
             className='py-1'
           />
         ))}
@@ -60,18 +70,28 @@ function MultiSelectCheckbox({ objectArray, objectKey }) {
   );
 }
 
-const FilterSort = ({ results }) => {
+const FilterSort = ({ results, filterItems, setFilterItems }) => {
   return (
     <Form className='mb-3'>
       <p>Filter/Sort Results</p>
       <Row className='mb-3'>
         <Form.Group as={Col}>
           <Form.Label>Company</Form.Label>
-          <MultiSelectCheckbox objectArray={results} objectKey='company' />
+          <MultiSelectCheckbox
+            objectArray={results}
+            objectKey='company'
+            filterItems={filterItems}
+            setFilterItems={setFilterItems}
+          />
         </Form.Group>
         <Form.Group as={Col}>
           <Form.Label>Title</Form.Label>
-          <MultiSelectCheckbox objectArray={results} objectKey='title' />
+          <MultiSelectCheckbox
+            objectArray={results}
+            objectKey='title'
+            filterItems={filterItems}
+            setFilterItems={setFilterItems}
+          />
         </Form.Group>
         <Form.Group as={Col}>
           <Form.Label>Earliest Post Date</Form.Label>
