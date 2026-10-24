@@ -22,11 +22,16 @@ function SearchResult({ result }) {
 function SearchResults({ results, filterItems }) {
   const companies = filterItems.company;
   const titles = filterItems.title;
+  const earliestDate = filterItems.date;
   const resultEntries = Object.entries(results)
     .filter(
       ([_, value]) => companies.size === 0 || companies.has(value.company),
     )
-    .filter(([_, value]) => titles.size === 0 || titles.has(value.title));
+    .filter(([_, value]) => titles.size === 0 || titles.has(value.title))
+    .filter(([_, value]) => {
+      if (earliestDate === '' || value.listed_date.date === null) return true;
+      return new Date(earliestDate) <= new Date(value.listed_date.date);
+    });
 
   return (
     <Table hover>

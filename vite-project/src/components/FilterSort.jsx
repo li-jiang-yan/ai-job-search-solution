@@ -104,6 +104,13 @@ function MultiSelectCheckbox({
 }
 
 const FilterSort = ({ results, filterItems, setFilterItems }) => {
+  const handleDateChange = (event) => {
+    setFilterItems({
+      ...filterItems,
+      date: event.target.value,
+    });
+  };
+
   return (
     <Form className='mb-3'>
       <p>Filter/Sort Results</p>
@@ -128,7 +135,7 @@ const FilterSort = ({ results, filterItems, setFilterItems }) => {
         </Form.Group>
         <Form.Group as={Col}>
           <Form.Label>Earliest Post Date</Form.Label>
-          <Form.Control type='date'></Form.Control>
+          <Form.Control type='date' onChange={handleDateChange}></Form.Control>
         </Form.Group>
       </Row>
       <Row>

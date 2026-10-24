@@ -23,6 +23,7 @@ const Main = () => {
   const [filterItems, setFilterItems] = useState({
     company: new Set(),
     title: new Set(),
+    date: '',
   });
 
   useEffect(() => {
