@@ -1,4 +1,5 @@
 import BasicSearch from './BasicSearch';
+import FilterSort from './FilterSort';
 import ResumeUpload from './ResumeUpload';
 import SearchResults from './SearchResults';
 
@@ -19,6 +20,8 @@ const Home = ({
         isSearching={isSearching}
         setIsSearching={setIsSearching}
       />
+      <hr className='my-4' />
+      <FilterSort />
       <hr className='my-4' />
       <SearchResults results={output} />
     </>
