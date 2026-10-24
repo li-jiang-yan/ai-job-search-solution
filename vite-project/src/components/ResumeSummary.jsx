@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
+import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 
 const tailorSummary = async (flatResume, jobSummary) => {
@@ -61,7 +62,16 @@ const ResumeSummary = ({ output, flatResume, jobId }) => {
     return <Alert variant='danger'>{error}</Alert>;
   }
 
-  return <div>{summary}</div>;
+  return (
+    <Form.Control
+      as='textarea'
+      value={summary}
+      className='my-3'
+      style={{
+        fieldSizing: 'content',
+      }}
+    />
+  );
 };
 
 export default ResumeSummary;
