@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 
 const tailorSummary = async (flatResume, jobSummary) => {
