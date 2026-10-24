@@ -49,8 +49,10 @@ const Main = () => {
 
           const result = await response.json();
           setFlatResume(result);
+          alert('Resume uploaded.');
         } catch (e) {
           console.error('Fetch operation failed:', e);
+          alert('Error flattening resume. Please try again.');
         }
       };
 
