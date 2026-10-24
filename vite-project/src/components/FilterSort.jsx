@@ -1,3 +1,4 @@
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
@@ -35,6 +36,20 @@ function MultiSelectCheckbox({
     });
   };
 
+  const handleSelectAll = () => {
+    setFilterItems({
+      ...filterItems,
+      [objectKey]: new Set(optionsList),
+    });
+  };
+
+  const handleClear = () => {
+    setFilterItems({
+      ...filterItems,
+      [objectKey]: new Set(),
+    });
+  };
+
   // Format button text dynamically
   const getDropdownLabel = () => {
     if (selectedItems.size === 0) return 'Select Options';
@@ -55,6 +70,12 @@ function MultiSelectCheckbox({
         className='w-100 px-3'
         style={{ maxHeight: '200px', overflowY: 'auto' }}
       >
+        <Button variant='link' onClick={handleSelectAll}>
+          Select All
+        </Button>
+        <Button variant='link' onClick={handleClear}>
+          Clear
+        </Button>
         {optionsList.map((option) => (
           <Form.Check
             key={crypto.randomUUID()}
