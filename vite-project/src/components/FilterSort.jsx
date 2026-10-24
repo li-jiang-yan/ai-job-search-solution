@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -17,7 +18,11 @@ function MultiSelectCheckbox({
   filterItems,
   setFilterItems,
 }) {
+  const [searchTerm, setSearchTerm] = useState('');
   const optionsList = getUniqueArrayOf(objectArray, objectKey);
+  const filteredOptions = optionsList.filter((option) =>
+    String(option).toLowerCase().includes(searchTerm.toLowerCase()),
+  );
   const selectedItems = filterItems[objectKey];
 
   // Toggle selection
@@ -76,7 +81,14 @@ function MultiSelectCheckbox({
         <Button variant='link' onClick={handleClear}>
           Clear
         </Button>
-        {optionsList.map((option) => (
+        <Form.Control
+          type='search'
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          onClick={(event) => event.stopPropagation()}
+          className='mb-1'
+        />
+        {filteredOptions.map((option) => (
           <Form.Check
             key={crypto.randomUUID()}
             type='checkbox'
