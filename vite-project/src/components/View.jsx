@@ -1,4 +1,5 @@
 import parse from 'html-react-parser';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -8,9 +9,19 @@ import ErrorBoundary from './ErrorBoundary';
 import ResumeEditor from './ResumeEditor';
 
 const View = ({ output, setOutput, flatResume }) => {
+  const [editorOpen, setEditorOpen] = useState(false);
   const { jobId } = useParams();
   const navigate = useNavigate();
   const object = output[jobId];
+
+  const handleClick = () => {
+    if (flatResume.length === 0) {
+      alert('No resume uploaded. Please upload resume at main page.');
+      return;
+    }
+
+    setEditorOpen(true);
+  };
 
   return (
     <>
@@ -54,8 +65,15 @@ const View = ({ output, setOutput, flatResume }) => {
           <ErrorBoundary>
             <AiSummary output={output} setOutput={setOutput} jobId={jobId} />
           </ErrorBoundary>
+          <Button className='mb-3' disabled={editorOpen} onClick={handleClick}>
+            Edit Resume
+          </Button>
           <ErrorBoundary>
-            <ResumeEditor object={object} flatResume={flatResume} />
+            <ResumeEditor
+              editorOpen={editorOpen}
+              object={object}
+              flatResume={flatResume}
+            />
           </ErrorBoundary>
         </Col>
       </Row>

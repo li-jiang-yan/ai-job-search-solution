@@ -1,6 +1,10 @@
 import ResumeSummary from './ResumeSummary';
 
-const ResumeEditor = ({ object, flatResume }) => {
+const ResumeEditor = ({ editorOpen, object, flatResume }) => {
+  if (!editorOpen) {
+    return null;
+  }
+
   return (
     <>
       <h6>Resume Summary</h6>

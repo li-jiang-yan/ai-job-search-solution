@@ -55,7 +55,11 @@ const AiSummary = ({ output, setOutput, jobId }) => {
   }, []);
 
   if (isLoading) {
-    return <Spinner animation='border' role='status' />;
+    return (
+      <div className='mb-3'>
+        <Spinner animation='border' role='status' />
+      </div>
+    );
   }
 
   if (error) {
