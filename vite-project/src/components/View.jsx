@@ -8,14 +8,14 @@ import AiSummary from './AiSummary';
 import ErrorBoundary from './ErrorBoundary';
 import ResumeEditor from './ResumeEditor';
 
-const View = ({ output, setOutput, flatResume }) => {
+const View = ({ output, setOutput, vectorizedResume }) => {
   const [editorOpen, setEditorOpen] = useState(false);
   const { jobId } = useParams();
   const navigate = useNavigate();
   const object = output[jobId];
 
   const handleClick = () => {
-    if (flatResume.length === 0) {
+    if (vectorizedResume.length === 0) {
       alert('No resume uploaded. Please upload resume at main page.');
       return;
     }
@@ -77,7 +77,7 @@ const View = ({ output, setOutput, flatResume }) => {
             <ResumeEditor
               editorOpen={editorOpen}
               object={object}
-              flatResume={flatResume}
+              vectorizedResume={vectorizedResume}
             />
           </ErrorBoundary>
         </Col>

@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import ResumeSummary from './EditorElements/ResumeSummary';
 
-const ResumeEditor = ({ editorOpen, object, flatResume }) => {
+const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
   if (!editorOpen) {
     return null;
   }
@@ -23,7 +23,7 @@ const ResumeEditor = ({ editorOpen, object, flatResume }) => {
         &ensp;Resume
       </Button>
       <h6>Resume Summary</h6>
-      <ResumeSummary object={object} flatResume={flatResume} />
+      <ResumeSummary object={object} vectorizedResume={vectorizedResume} />
     </>
   );
 };

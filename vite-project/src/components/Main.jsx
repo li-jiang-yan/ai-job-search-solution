@@ -10,7 +10,7 @@ const Main = () => {
 
   // ResumeUpload
   const [resume, setResume] = useState({});
-  const [flatResume, setFlatResume] = useState([]);
+  const [vectorizedResume, setVectorizedResume] = useState([]);
 
   // BasicSearch
   const [formData, setFormData] = useState({
@@ -31,9 +31,9 @@ const Main = () => {
 
   useEffect(() => {
     if (Object.keys(resume).length > 0) {
-      const flattenResume = async () => {
+      const vectorizeResume = async () => {
         try {
-          const response = await fetch('/api/flatten', {
+          const response = await fetch('/api/vectorize', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -48,15 +48,15 @@ const Main = () => {
           }
 
           const result = await response.json();
-          setFlatResume(result);
+          setVectorizedResume(result);
           alert('Resume uploaded.');
         } catch (e) {
           console.error('Fetch operation failed:', e);
-          alert('Error flattening resume. Please try again.');
+          alert('Error vectorizing resume. Please try again.');
         }
       };
 
-      flattenResume();
+      vectorizeResume();
     }
   }, [resume]);
 
@@ -186,7 +186,7 @@ const Main = () => {
               <View
                 output={output}
                 setOutput={setOutput}
-                flatResume={flatResume}
+                vectorizedResume={vectorizedResume}
               />
             }
           />

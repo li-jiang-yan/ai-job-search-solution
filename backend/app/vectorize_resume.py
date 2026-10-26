@@ -5,16 +5,16 @@ from typing import Any
 from openai import OpenAI
 
 
-def flatten(nested_list: list) -> list:
+def vectorize(nested_list: list) -> list:
     for item in nested_list:
         if isinstance(item, (list, tuple)):
-            yield from flatten(item)
+            yield from vectorize(item)
         else:
             yield item
 
 
-def flatten_entry(title: str, type_: str, entry: Any) -> Any:
-    """Flatten a given resume section entry"""
+def vectorize_entry(title: str, type_: str, entry: Any) -> Any:
+    """Vectorize a given resume section entry"""
     if isinstance(entry, str):  # type_ == 'skills'
         return {'content': f'{title}: {entry}', 'weight': 0.2}
     elif type_ == 'education':
@@ -32,20 +32,20 @@ def flatten_entry(title: str, type_: str, entry: Any) -> Any:
         return [{'content': f'Experience: {bullet}', 'weight': 1.0} for bullet in bulletlist]
 
 
-def flatten_section(section: dict[str, Any]) -> list[str]:
-    """Flatten a given resume section represented as a dictionary"""
+def vectorize_section(section: dict[str, Any]) -> list[str]:
+    """Vectorize a given resume section represented as a dictionary"""
     title = section['title']
     type_ = section['type']
     entries = section['entries']
 
-    return [flatten_entry(title, type_, entry) for entry in entries]
+    return [vectorize_entry(title, type_, entry) for entry in entries]
 
 
-def flatten_resume(sections: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def vectorize_resume(sections: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """
-    Flatten a list of resume sections suitable for the purposes of summary tailoring.
+    Vectorize a list of resume sections suitable for the purposes of summary tailoring.
     """
-    dicts = list(flatten(flatten_section(section) for section in sections))
+    dicts = list(vectorize(vectorize_section(section) for section in sections))
     response = OpenAI(timeout=30).embeddings.create(
         model='text-embedding-3-small', input=[dict_['content'] for dict_ in dicts]
     )

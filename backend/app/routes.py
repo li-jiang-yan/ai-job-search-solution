@@ -4,7 +4,7 @@ from app.extract_job_post import extract_job_url
 from app.search_jobs import search_jobs
 from app.summarize_job_post import summarize_job_post
 from app.tailor_summary import tailor_summary
-from app.vectorize_resume import flatten_resume
+from app.vectorize_resume import vectorize_resume
 
 bp = Blueprint('blog', __name__)
 
@@ -35,12 +35,12 @@ def summarize():
     return jsonify(result)
 
 
-@bp.route('/flatten', methods=['POST'])
-def flatten():
-    """Flatten a given list of resume sections"""
+@bp.route('/vectorize', methods=['POST'])
+def vectorize():
+    """vectorize a given list of resume sections"""
     payload = request.get_json()
     sections = payload['sections']
-    result = flatten_resume(sections)
+    result = vectorize_resume(sections)
     return jsonify(result)
 
 

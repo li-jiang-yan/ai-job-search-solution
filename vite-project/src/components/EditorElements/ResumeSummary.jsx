@@ -3,14 +3,14 @@ import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 
-const tailorSummary = async (flatResume, jobSummary) => {
+const tailorSummary = async (vectorizedResume, jobSummary) => {
   const response = await fetch('/api/tailor', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      resumePoints: flatResume,
+      resumePoints: vectorizedResume,
       jobSummary: jobSummary,
     }),
   });
@@ -24,7 +24,7 @@ const tailorSummary = async (flatResume, jobSummary) => {
   return data;
 };
 
-const ResumeSummary = ({ object, flatResume }) => {
+const ResumeSummary = ({ object, vectorizedResume }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [summary, setSummary] = useState('');
@@ -35,7 +35,7 @@ const ResumeSummary = ({ object, flatResume }) => {
     const loadSummary = async () => {
       if (jobSummary !== undefined) {
         try {
-          const result = await tailorSummary(flatResume, jobSummary);
+          const result = await tailorSummary(vectorizedResume, jobSummary);
           setSummary(result.summary);
         } catch (e) {
           console.error('Fetch operation failed:', e);
@@ -49,7 +49,7 @@ const ResumeSummary = ({ object, flatResume }) => {
     loadSummary();
   }, [jobSummary]);
 
-  if (flatResume.length === 0) {
+  if (vectorizedResume.length === 0) {
     return <Alert variant='danger'>No resume uploaded.</Alert>;
   }
 
