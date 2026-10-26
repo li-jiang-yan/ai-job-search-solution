@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, request
 
 from app.extract_job_post import extract_job_url
-from app.flatten_resume import flatten_resume
 from app.search_jobs import search_jobs
 from app.summarize_job_post import summarize_job_post
 from app.tailor_summary import tailor_summary
+from app.vectorize_resume import flatten_resume
 
 bp = Blueprint('blog', __name__)
 
