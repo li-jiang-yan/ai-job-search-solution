@@ -24,11 +24,10 @@ const tailorSummary = async (flatResume, jobSummary) => {
   return data;
 };
 
-const ResumeSummary = ({ output, flatResume, jobId }) => {
+const ResumeSummary = ({ object, flatResume }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [summary, setSummary] = useState('');
-  const object = output[jobId];
   const jobSummary = object?.summary;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Run only on jobSummary
