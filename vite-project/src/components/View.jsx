@@ -20,6 +20,11 @@ const View = ({ output, setOutput, flatResume }) => {
       return;
     }
 
+    if (object?.summary === undefined) {
+      alert('Please wait for AI Summary to be generated before continuing.');
+      return;
+    }
+
     setEditorOpen(true);
   };
 
