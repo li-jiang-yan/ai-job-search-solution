@@ -77,7 +77,10 @@ const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
         &ensp;Resume
       </Button>
       <h6>Resume Summary</h6>
-      <ResumeSummary resumeSummary={editorResume.summary} />
+      <ResumeSummary
+        editorResume={editorResume}
+        setEditorResume={setEditorResume}
+      />
       <h6>Resume Sections</h6>
       {editorResume.sections.map((section) => (
         <ResumeSection key={crypto.randomUUID()} section={section} />

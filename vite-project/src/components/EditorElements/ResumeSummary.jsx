@@ -1,14 +1,19 @@
 import Form from 'react-bootstrap/Form';
 
-const ResumeSummary = ({ resumeSummary }) => {
+const ResumeSummary = ({ editorResume, setEditorResume }) => {
+  const handleChange = (event) => {
+    setEditorResume({ ...editorResume, summary: event.target.value });
+  };
+
   return (
     <Form.Control
       as='textarea'
-      value={resumeSummary}
+      value={editorResume.summary}
       className='my-3'
       style={{
         fieldSizing: 'content',
       }}
+      onChange={handleChange}
     />
   );
 };
