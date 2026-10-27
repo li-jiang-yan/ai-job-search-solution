@@ -3,8 +3,8 @@ from flask import Blueprint, jsonify, request
 from app.extract_job_post import extract_job_url
 from app.search_jobs import search_jobs
 from app.summarize_job_post import summarize_job_post
-from app.tailor_resume import tailor_summary
-from app.vectorize_resume import vectorize_resume
+from app.tailor_resume import tailor_resume
+from app.vectorize_resume import vectorize_sections
 
 bp = Blueprint('blog', __name__)
 
@@ -40,7 +40,7 @@ def vectorize():
     """vectorize a given list of resume sections"""
     payload = request.get_json()
     sections = payload['sections']
-    result = vectorize_resume(sections)
+    result = vectorize_sections(sections)
     return jsonify(result)
 
 
@@ -48,7 +48,7 @@ def vectorize():
 def tailor():
     """Write a resume summary based on the given requirements"""
     payload = request.get_json()
-    resume_points = payload['resumePoints']
+    vectorized_resume = payload['vectorizedResume']
     job_summary = payload['jobSummary']
-    result = tailor_summary(job_summary, resume_points)
+    result = tailor_resume(job_summary, vectorized_resume)
     return jsonify(result)

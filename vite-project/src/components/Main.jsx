@@ -10,7 +10,7 @@ const Main = () => {
 
   // ResumeUpload
   const [resume, setResume] = useState({});
-  const [vectorizedResume, setVectorizedResume] = useState([]);
+  const [vectorizedResume, setVectorizedResume] = useState({});
 
   // BasicSearch
   const [formData, setFormData] = useState({
@@ -48,7 +48,7 @@ const Main = () => {
           }
 
           const result = await response.json();
-          setVectorizedResume(result);
+          setVectorizedResume({ ...resume, sections: result });
           alert('Resume uploaded.');
         } catch (e) {
           console.error('Fetch operation failed:', e);

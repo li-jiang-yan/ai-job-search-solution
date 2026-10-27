@@ -1,9 +1,62 @@
+import { useEffect, useState } from 'react';
+
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import ResumeSummary from './EditorElements/ResumeSummary';
 
+const tailorResume = async (vectorizedResume, jobSummary) => {
+  const response = await fetch('/api/tailor', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      vectorizedResume: vectorizedResume,
+      jobSummary: jobSummary,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
 const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [editorResume, setEditorResume] = useState({});
+  const jobSummary = object.summary;
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Run only on editorOpen
+  useEffect(() => {
+    const loadEditor = async () => {
+      try {
+        const result = await tailorResume(vectorizedResume, jobSummary);
+        setEditorResume(result);
+      } catch (e) {
+        console.error('Fetch operation failed:', e);
+        setError(e.message);
+      }
+
+      setIsLoading(false);
+    };
+
+    loadEditor();
+  }, [editorOpen]);
+
   if (!editorOpen) {
     return null;
+  }
+
+  if (isLoading) {
+    return (
+      <div className='mb-3'>
+        <Spinner animation='border' role='status' />
+      </div>
+    );
   }
 
   return (
@@ -23,7 +76,7 @@ const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
         &ensp;Resume
       </Button>
       <h6>Resume Summary</h6>
-      <ResumeSummary object={object} vectorizedResume={vectorizedResume} />
+      <ResumeSummary resumeSummary={editorResume.summary} />
     </>
   );
 };

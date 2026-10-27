@@ -15,7 +15,7 @@ const View = ({ output, setOutput, vectorizedResume }) => {
   const object = output[jobId];
 
   const handleClick = () => {
-    if (vectorizedResume.length === 0) {
+    if (Object.keys(vectorizedResume).length === 0) {
       alert('No resume uploaded. Please upload resume at main page.');
       return;
     }
