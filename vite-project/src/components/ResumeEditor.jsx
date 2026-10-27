@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import ResumeSection from './EditorElements/ResumeSection';
 import ResumeSummary from './EditorElements/ResumeSummary';
 
 const tailorResume = async (vectorizedResume, jobSummary) => {
@@ -77,6 +78,10 @@ const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
       </Button>
       <h6>Resume Summary</h6>
       <ResumeSummary resumeSummary={editorResume.summary} />
+      <h6>Resume Sections</h6>
+      {editorResume.sections.map((section) => (
+        <ResumeSection key={crypto.randomUUID()} section={section} />
+      ))}
     </>
   );
 };
