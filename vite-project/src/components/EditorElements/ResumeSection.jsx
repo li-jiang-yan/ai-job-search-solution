@@ -13,6 +13,7 @@ const convertToKey = (value) => {
 };
 
 const ResumeSection = ({ section, setEditorResume }) => {
+  const checked = section.checked;
   const vectorize = section.vectorize;
   const getKey = (entry) => {
     if (vectorize === 'entries') {
@@ -41,13 +42,30 @@ const ResumeSection = ({ section, setEditorResume }) => {
     });
   };
 
+  const handleCheckboxChange = (event) => {
+    setEditorResume((currentResume) => ({
+      ...currentResume,
+      sections: currentResume.sections.map((section_) => {
+        if (section_.title !== section.title) {
+          return section_;
+        }
+
+        return { ...section_, checked: event.target.checked };
+      }),
+    }));
+  };
+
   return (
     <Card className='mb-3'>
       <Card.Body>
         <Form.Check type='checkbox'>
           <Row>
             <Col xs='auto'>
-              <Form.Check.Input type='checkbox' defaultChecked={true} />
+              <Form.Check.Input
+                type='checkbox'
+                checked={checked}
+                onChange={handleCheckboxChange}
+              />
             </Col>
             <Col>
               <Card.Title>{section.title}</Card.Title>

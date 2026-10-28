@@ -104,11 +104,13 @@ def tailor_section(section: dict[str, Any], similarity_dict: dict[str, float]) -
                 'content': {
                     **entry['content'],
                     'bulletlist': [
-                        {'string': string} for string in entry['content']['bulletlist']
+                        {'string': string, 'checked': True}
+                        for string in entry['content']['bulletlist']
                     ],
                 }
                 if 'bulletlist' in entry['content']
                 else entry['content'],
+                'checked': True,
                 'similarity': similarity_dict[entry['point']],
             }
             for entry in entries
@@ -118,6 +120,7 @@ def tailor_section(section: dict[str, Any], similarity_dict: dict[str, float]) -
 
         return {
             **section,
+            'checked': True,
             'entries': new_entries
             if sorted_by_date
             else sorted(new_entries, reverse=True, key=lambda entry: entry['similarity']),
@@ -125,6 +128,7 @@ def tailor_section(section: dict[str, Any], similarity_dict: dict[str, float]) -
     elif vectorize == 'bulletlist':
         return {
             **section,
+            'checked': True,
             'entries': [
                 {
                     **entry,
@@ -133,12 +137,14 @@ def tailor_section(section: dict[str, Any], similarity_dict: dict[str, float]) -
                             {
                                 'content': bulletpoint['content'],
                                 'similarity': similarity_dict[bulletpoint['point']],
+                                'checked': True,
                             }
                             for bulletpoint in entry['bulletlist']
                         ],
                         reverse=True,
                         key=lambda bulletpoint: bulletpoint['similarity'],
                     ),
+                    'checked': True,
                 }
                 for entry in entries
             ],

@@ -6,6 +6,34 @@ import EntryBulletlist from './EntryBulletlist';
 import EntrySubheading from './EntrySubheading';
 
 const SectionEntry = ({ sectionTitle, vectorize, entry, setEditorResume }) => {
+  const checked = entry.checked;
+  const vectorizeBulletlist = vectorize === 'bulletlist';
+  const handleCheckboxChange = (event) => {
+    setEditorResume((currentResume) => ({
+      ...currentResume,
+      sections: currentResume.sections.map((section_) => {
+        if (section_.title !== sectionTitle) {
+          return section_;
+        }
+
+        return {
+          ...section_,
+          entries: section_.entries.map((entry_) => {
+            if (vectorizeBulletlist) {
+              if (entry_.name !== entry.name) return entry_;
+            } else if (typeof entry_.content === 'string') {
+              if (entry_.content !== entry.content) return entry_;
+            } else if (entry_.content.name !== entry.content.name) {
+              return entry_;
+            }
+
+            return { ...entry_, checked: event.target.checked };
+          }),
+        };
+      }),
+    }));
+  };
+
   if (vectorize === 'entries') {
     const similarity = entry.similarity * 100;
 
@@ -14,7 +42,11 @@ const SectionEntry = ({ sectionTitle, vectorize, entry, setEditorResume }) => {
         <Form.Check type='checkbox'>
           <Row>
             <Col xs='auto'>
-              <Form.Check.Input type='checkbox' defaultChecked={true} />
+              <Form.Check.Input
+                type='checkbox'
+                checked={checked}
+                onChange={handleCheckboxChange}
+              />
             </Col>
             <Col>{entry.content}</Col>
             <Col xs='auto'>({similarity.toFixed(1)}%)</Col>
@@ -30,7 +62,11 @@ const SectionEntry = ({ sectionTitle, vectorize, entry, setEditorResume }) => {
       <Form.Check type='checkbox' className='mb-3'>
         <Row>
           <Col xs='auto'>
-            <Form.Check.Input type='checkbox' defaultChecked={true} />
+            <Form.Check.Input
+              type='checkbox'
+              checked={checked}
+              onChange={handleCheckboxChange}
+            />
           </Col>
           <Col>
             <Card.Subtitle className='mt-0 mb-2'>
@@ -62,7 +98,11 @@ const SectionEntry = ({ sectionTitle, vectorize, entry, setEditorResume }) => {
       <Form.Check type='checkbox' className='mb-3'>
         <Row>
           <Col xs='auto'>
-            <Form.Check.Input type='checkbox' defaultChecked={true} />
+            <Form.Check.Input
+              type='checkbox'
+              checked={checked}
+              onChange={handleCheckboxChange}
+            />
           </Col>
           <Col>
             <Card.Subtitle className='mt-0 mb-2'>
