@@ -99,22 +99,28 @@ def tailor_section(section: dict[str, Any], similarity_dict: dict[str, float]) -
     entries = section['entries']
 
     if vectorize == 'entries':
+        new_entries = [
+            {
+                'content': {
+                    **entry['content'],
+                    'bulletlist': [
+                        {'string': string} for string in entry['content']['bulletlist']
+                    ],
+                }
+                if 'bulletlist' in entry['content']
+                else entry['content'],
+                'similarity': similarity_dict[entry['point']],
+            }
+            for entry in entries
+        ]
+
+        sorted_by_date = all('dates' in entry['content'] for entry in new_entries)
+
         return {
             **section,
-            'entries': [
-                {
-                    'content': {
-                        **entry['content'],
-                        'bulletlist': [
-                            {'string': string} for string in entry['content']['bulletlist']
-                        ],
-                    }
-                    if 'bulletlist' in entry['content']
-                    else entry['content'],
-                    'similarity': similarity_dict[entry['point']],
-                }
-                for entry in entries
-            ],
+            'entries': new_entries
+            if sorted_by_date
+            else sorted(new_entries, reverse=True, key=lambda entry: entry['similarity']),
         }
     elif vectorize == 'bulletlist':
         return {
@@ -122,13 +128,17 @@ def tailor_section(section: dict[str, Any], similarity_dict: dict[str, float]) -
             'entries': [
                 {
                     **entry,
-                    'bulletlist': [
-                        {
-                            'content': bulletpoint['content'],
-                            'similarity': similarity_dict[bulletpoint['point']],
-                        }
-                        for bulletpoint in entry['bulletlist']
-                    ],
+                    'bulletlist': sorted(
+                        [
+                            {
+                                'content': bulletpoint['content'],
+                                'similarity': similarity_dict[bulletpoint['point']],
+                            }
+                            for bulletpoint in entry['bulletlist']
+                        ],
+                        reverse=True,
+                        key=lambda bulletpoint: bulletpoint['similarity'],
+                    ),
                 }
                 for entry in entries
             ],
