@@ -102,7 +102,17 @@ def tailor_section(section: dict[str, Any], similarity_dict: dict[str, float]) -
         return {
             **section,
             'entries': [
-                {'content': entry['content'], 'similarity': similarity_dict[entry['point']]}
+                {
+                    'content': {
+                        **entry['content'],
+                        'bulletlist': [
+                            {'string': string} for string in entry['content']['bulletlist']
+                        ],
+                    }
+                    if 'bulletlist' in entry['content']
+                    else entry['content'],
+                    'similarity': similarity_dict[entry['point']],
+                }
                 for entry in entries
             ],
         }

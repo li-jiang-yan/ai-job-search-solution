@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import { ReactSortable } from 'react-sortablejs';
 import ResumeSection from './EditorElements/ResumeSection';
 import ResumeSummary from './EditorElements/ResumeSummary';
 
@@ -28,6 +29,7 @@ const tailorResume = async (vectorizedResume, jobSummary) => {
 
 const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
   const [editorResume, setEditorResume] = useState({});
   const jobSummary = object.summary;
 
@@ -60,6 +62,14 @@ const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
     );
   }
 
+  if (error) {
+    return <Alert variant='danger'>{error}</Alert>;
+  }
+
+  const setSections = (sections) => {
+    return setEditorResume((currentResume) => ({ ...currentResume, sections }));
+  };
+
   return (
     <>
       <Button className='ms-2 mb-3'>
@@ -82,9 +92,15 @@ const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
         setEditorResume={setEditorResume}
       />
       <h6>Resume Sections</h6>
-      {editorResume.sections.map((section) => (
-        <ResumeSection key={crypto.randomUUID()} section={section} />
-      ))}
+      <ReactSortable list={editorResume.sections} setList={setSections}>
+        {editorResume.sections.map((section) => (
+          <ResumeSection
+            key={section.title.toLowerCase()}
+            section={section}
+            setEditorResume={setEditorResume}
+          />
+        ))}
+      </ReactSortable>
     </>
   );
 };

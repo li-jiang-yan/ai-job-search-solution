@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import EntryBulletlist from './EntryBulletlist';
 import EntrySubheading from './EntrySubheading';
 
-const SectionEntry = ({ vectorize, entry }) => {
+const SectionEntry = ({ sectionTitle, vectorize, entry, setEditorResume }) => {
   if (vectorize === 'entries') {
     const similarity = entry.similarity * 100;
 
@@ -40,7 +40,12 @@ const SectionEntry = ({ vectorize, entry }) => {
               <EntrySubheading innerText={entry.content.institution} />
             ) : null}
             {Object.hasOwn(entry.content, 'bulletlist') ? (
-              <EntryBulletlist bulletlist={entry.content.bulletlist} />
+              <EntryBulletlist
+                sectionTitle={sectionTitle}
+                entryName={entry.content.name}
+                bulletlist={entry.content.bulletlist}
+                setEditorResume={setEditorResume}
+              />
             ) : null}
           </Col>
           <Col xs='auto'>({similarity.toFixed(1)}%)</Col>
@@ -66,7 +71,12 @@ const SectionEntry = ({ vectorize, entry }) => {
             {Object.hasOwn(entry, 'company') ? (
               <EntrySubheading innerText={entry.company} />
             ) : null}
-            <EntryBulletlist bulletlist={entry.bulletlist} />
+            <EntryBulletlist
+              sectionTitle={sectionTitle}
+              entryName={entry.name}
+              bulletlist={entry.bulletlist}
+              setEditorResume={setEditorResume}
+            />
           </Col>
         </Row>
       </Form.Check>
