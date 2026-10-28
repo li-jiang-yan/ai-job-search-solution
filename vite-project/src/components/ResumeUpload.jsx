@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-const ResumeUpload = ({ setResume }) => {
+const ResumeUpload = ({ setResume, vectorizedResume }) => {
   const [buttonEnabled, setButtonEnabled] = useState(false);
   const [file, setFile] = useState(null);
 
@@ -39,6 +40,17 @@ const ResumeUpload = ({ setResume }) => {
           <Button type='submit' disabled={!buttonEnabled}>
             Upload
           </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {vectorizedResume &&
+          Object.keys(vectorizedResume).length === 0 &&
+          vectorizedResume.constructor === Object ? (
+            <Alert variant='warning'>Resume not uploaded.</Alert>
+          ) : (
+            <Alert variant='success'>Resume successfully uploaded.</Alert>
+          )}
         </Col>
       </Row>
     </Form>

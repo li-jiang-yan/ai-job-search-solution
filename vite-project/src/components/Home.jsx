@@ -1,10 +1,14 @@
+import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
 import BasicSearch from './BasicSearch';
 import FilterSort from './FilterSort';
 import ResumeUpload from './ResumeUpload';
 import SearchResults from './SearchResults';
 
 const Home = ({
+  isUploading,
   setResume,
+  vectorizedResume,
   formData,
   setFormData,
   isSearching,
@@ -17,7 +21,7 @@ const Home = ({
 }) => {
   return (
     <>
-      <ResumeUpload setResume={setResume} />
+      <ResumeUpload setResume={setResume} vectorizedResume={vectorizedResume} />
       <BasicSearch
         formData={formData}
         setFormData={setFormData}
@@ -33,7 +37,14 @@ const Home = ({
         setSortTerm={setSortTerm}
       />
       <hr className='my-4' />
-      <SearchResults results={output} filterItems={filterItems} />
+      {isUploading ? (
+        <Alert variant='warning'>
+          <Spinner as='span' animation='border' size='sm' role='status' />
+          &ensp;Resume uploading in progress...
+        </Alert>
+      ) : (
+        <SearchResults results={output} filterItems={filterItems} />
+      )}
     </>
   );
 };

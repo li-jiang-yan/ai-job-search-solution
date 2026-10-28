@@ -10,6 +10,7 @@ const Main = () => {
 
   // ResumeUpload
   const [resume, setResume] = useState({});
+  const [isUploading, setIsUploading] = useState(false);
   const [vectorizedResume, setVectorizedResume] = useState({});
 
   // BasicSearch
@@ -33,6 +34,8 @@ const Main = () => {
     if (Object.keys(resume).length > 0) {
       const vectorizeResume = async () => {
         try {
+          setIsUploading(true);
+
           const response = await fetch('/api/vectorize', {
             method: 'POST',
             headers: {
@@ -53,6 +56,8 @@ const Main = () => {
         } catch (e) {
           console.error('Fetch operation failed:', e);
           alert('Error vectorizing resume. Please try again.');
+        } finally {
+          setIsUploading(false);
         }
       };
 
@@ -167,7 +172,9 @@ const Main = () => {
             path='/'
             element={
               <Home
+                isUploading={isUploading}
                 setResume={setResume}
+                vectorizedResume={vectorizedResume}
                 formData={formData}
                 setFormData={setFormData}
                 isSearching={isSearching}
