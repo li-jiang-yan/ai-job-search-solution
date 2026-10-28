@@ -70,9 +70,39 @@ const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
     return setEditorResume((currentResume) => ({ ...currentResume, sections }));
   };
 
+  const handleClick = async () => {
+    try {
+      const response = await fetch('/api/export', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editorResume),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      // Create an anchor element and click it
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'resume.docx';
+      link.click();
+
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error('Fetch operation failed:', e);
+      setError(e.message);
+    }
+  };
+
   return (
     <>
-      <Button className='ms-2 mb-3'>
+      <Button className='ms-2 mb-3' onClick={handleClick}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='16'

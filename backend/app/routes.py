@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 
+from app.export_word import generate
 from app.extract_job_post import extract_job_url
 from app.search_jobs import search_jobs
 from app.summarize_job_post import summarize_job_post
@@ -52,3 +53,12 @@ def tailor():
     job_summary = payload['jobSummary']
     result = tailor_resume(job_summary, vectorized_resume)
     return jsonify(result)
+
+
+@bp.route('/export', methods=['POST'])
+def export():
+    """Export a Word doc resume based on the given dictionary"""
+    payload = request.get_json()
+    resume_json = payload
+    result = generate(resume_json)
+    return result
