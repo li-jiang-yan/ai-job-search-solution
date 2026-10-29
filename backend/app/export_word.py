@@ -118,23 +118,20 @@ def add_section(document, section):
     run.font.size = Pt(12)
 
     # Add section contents
+    checked_entries = [entry for entry in entries if entry['checked']]
     if vectorize == 'entries':
         if all(isinstance(entry['content'], str) for entry in entries):
-            document.add_paragraph(
-                ', '.join(entry['content'] for entry in entries if entry['checked'])
-            )
+            document.add_paragraph(', '.join(entry['content'] for entry in checked_entries))
         else:
             [
                 add_entry(document, vectorize, entry['content'], index == len(entries) - 1)
-                for index, entry in enumerate(entries)
-                if entry['checked']
+                for index, entry in enumerate(checked_entries)
             ]
 
     if vectorize == 'bulletlist':
         [
             add_entry(document, vectorize, entry, index == len(entries) - 1)
-            for index, entry in enumerate(entries)
-            if entry['checked']
+            for index, entry in enumerate(checked_entries)
         ]
 
 
