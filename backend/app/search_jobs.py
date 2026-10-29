@@ -61,6 +61,13 @@ def search_jobs(query_params: dict) -> list[dict[str, Any]]:
     response = requests.get(
         'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search',
         params=query_params,
+        headers={
+            'User-Agent': (
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/120.0.0.0 Safari/537.36'
+            )
+        },
     )
     response.raise_for_status()
     return extract_jobs(response.text)
