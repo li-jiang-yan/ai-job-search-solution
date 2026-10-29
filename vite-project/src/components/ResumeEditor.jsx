@@ -35,6 +35,8 @@ const ResumeEditor = ({ editorOpen, object, vectorizedResume }) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Run only on editorOpen
   useEffect(() => {
+    if (!editorOpen) return;
+
     const loadEditor = async () => {
       try {
         const result = await tailorResume(vectorizedResume, jobSummary);
