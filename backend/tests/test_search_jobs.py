@@ -106,6 +106,13 @@ def test_search_jobs_fetches_results_and_extracts_cards(monkeypatch):
     request.assert_called_once_with(
         'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search',
         params={'keywords': 'engineer'},
+        headers={
+            'User-Agent': (
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/120.0.0.0 Safari/537.36'
+            )
+        },
     )
 
 
