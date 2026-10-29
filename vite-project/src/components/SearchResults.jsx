@@ -9,9 +9,6 @@ function SearchResult({ result }) {
       onClick={() => navigate(`/view/${result.job_id}`)}
       style={{ cursor: 'pointer' }}
     >
-      <td>
-        <input type='checkbox' />
-      </td>
       <td>{result.company}</td>
       <td>
         {result.title}&nbsp;
