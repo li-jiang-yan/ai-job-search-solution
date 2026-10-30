@@ -128,7 +128,7 @@ const Main = () => {
             ...firstJob,
             ...data,
             matches: sortTermArray.filter((element) =>
-              data.main_job_page.description_html
+              data.main_job_page.description_text
                 .toLowerCase()
                 .includes(element),
             ),
@@ -151,7 +151,7 @@ const Main = () => {
         [key]: {
           ...previousOutput[key],
           matches: sortTermArray.filter((element) =>
-            previousOutput[key].main_job_page.description_html
+            previousOutput[key].main_job_page.description_text
               .toLowerCase()
               .includes(element),
           ),
