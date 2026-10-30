@@ -33,4 +33,4 @@ finally {
     Pop-Location
 }
 
-Write-Host "Built executable: $(Join-Path $backendDirectory 'dist\AIJobSearch.exe')"
+Write-Host "Built executable: $(Join-Path $backendDirectory 'dist\IntelligentJobSearchTool.exe')"

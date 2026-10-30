@@ -26,11 +26,12 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='AIJobSearch',
+    name='IntelligentJobSearchTool',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     console=True,
     disable_windowed_traceback=False,
+    icon=str(backend_directory / 'assets' / 'briefcase-fill.ico'),
 )
